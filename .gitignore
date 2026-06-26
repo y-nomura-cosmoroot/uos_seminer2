@@ -28,4 +28,5 @@ yarn-error.log*
 .env.production
 .vscode/settings.json
 
-docs\agenda.md
+docs/agenda.md
+.claude/settings.local.json
