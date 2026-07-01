@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UOS『AI Lead-Off』セミナー第1回：業務系編</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" id="theme">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Poppins:wght@600&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#FFFFFF', surface: '#F2F2F2', ink: '#44546A', sub: '#000000',
+            slate: '#3D698F', tealgrey: '#80A7A5', sage: '#ABBE92', mauve: '#775864'
+          },
+          fontFamily: {
+            head: ['Arial', '"Helvetica Neue"', '"Noto Sans JP"', 'sans-serif'],
+            body: ['Lato', '"Noto Sans JP"', 'sans-serif'],
+            accent: ['Poppins', 'Arial', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .reveal { font-family: 'Lato', '"Noto Sans JP"', sans-serif; }
+    .reveal section { text-align: left; }
+    .reveal code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+  </style>
+  <style type="text/tailwindcss">
+    @layer components {
+      .c-eyebrow { @apply font-head font-bold uppercase tracking-[0.5em] text-[1rem] text-slate; }
+      .c-eyebrow-light { @apply font-head font-bold uppercase tracking-[0.5em] text-[1rem] text-white/70; }
+      .c-title { @apply font-head font-bold uppercase tracking-wide text-[2.3rem] text-ink leading-tight; }
+      .c-msg   { @apply font-body font-bold text-[1.5rem] text-ink leading-snug; }
+      .c-lead  { @apply font-body font-bold text-[1rem] text-ink leading-relaxed; }
+      .c-tier1 { @apply font-head font-bold text-[1.5rem] text-ink; }
+      .c-tier2 { @apply font-body font-light text-[1rem] text-ink leading-relaxed; }
+      .c-tier3 { @apply font-body font-light text-[1rem] text-sub leading-relaxed; }
+      .c-note  { @apply font-body font-light text-[1rem] text-sub; }
+      .c-card  { @apply text-white grid content-start gap-2 p-6; }
+      .c-stat  { @apply font-head font-light text-[2.5rem] leading-none; }
+      .c-kicker{ @apply font-head font-bold uppercase tracking-[0.14em] text-[1rem]; }
+      .c-rule  { @apply h-px bg-sub/30 w-full; }
+      .c-cmd   { @apply font-mono text-[1rem] text-slate bg-surface px-2 py-0.5; }
+      .c-quote { @apply font-body font-light text-[1rem] leading-relaxed; }
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- 1. 表紙 -->
+<section>
+  <section class="bg-slate">
+    <div class="r-stretch grid place-items-center p-16">
+      <div class="grid gap-6 max-w-4xl">
+        <div class="c-eyebrow-light">UOS『AI Lead-Off』セミナー<br>第1回 / 業務系編</div>
+        <div class="c-title text-white text-[3.4rem]">Claudeで日々の<br>業務を変えよう</div>
+        <div class="font-body font-bold text-[1.15rem] text-white/85 leading-relaxed">AIに書かせる、デザインさせる、自動化する。<br>Claudeで実務をどのように変えられるかをご紹介します。</div>
+        <div class="c-note text-white/60 mt-4">2026.06 / 講師：野村祐介</div>
+      </div>
+    </div>
+    <aside class="notes">
+      今日は「AIツールが好きか嫌いか」の話はしない。使うか使わないかではなく、もう使う前提でどう組み込むか。60分でClaudeの全体像を掴み、ライティング・デザイン・自動化を実演で見せる。手を動かす枠はなく全編デモ。
+    </aside>
+  </section>
+</section>
+
+<!-- 1b. 自己紹介 -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-5 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">自己紹介</div>
+          <div class="c-msg">講師の自己紹介</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-2 gap-8 items-start">
+          <div class="grid gap-2 content-start">
+            <div class="c-tier1 text-slate">野村 祐介（のむら ゆうすけ）</div>
+            <a href="../overview/Overview.html" target="_blank" rel="noopener"><img src="assets/overview.png" alt="ClaudeDesignで作った野村祐介のプロフィールページ" class="w-full border border-sub/30"></a>
+          </div>
+          <div class="grid gap-3 content-start">
+            <div class="c-tier1 text-slate">経歴</div>
+            <div class="c-tier2 font-bold">株式会社コスモルート テクニカルアーキテクト部 スペシャリスト</div>
+            <div class="c-tier3">2009年から30プロジェクト以上の業務システムに従事。<br>
+              独自フレームワークや基板設計を多くやってきました。</div>
+            <div class="c-tier3">2024年から積極的にAIを活用しています。<br>
+              ClaudeやGeminiを設計、実装、テストなどに組み込んだり、社内のAI布教活動をしています。</div>
+            <div class="c-tier3"></div>
+            <div class="c-note">左の自己紹介ページは<span class="font-mono text-slate">Claudeデザインを使って30分くらいで</span>作りました。</div>
+            <div class="c-tier3"></div>
+            <div class="c-note"><a href="https://www.media.mit.edu/people/ishii/overview/" target="_blank" rel="noopener">このサイト</a>のデザインを後述のスキルで再現しています。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      つかみ：この自己紹介ページ自体がClaudeDesign製だと最初に明かす。軽く経歴（17業種・34案件、独自フレームワーク、2024からAI統合）に触れつつ、こういう成果物がClaudeで作れると示して本編（特にデザイン編）への伏線にする。スクショはクリックで実物 overview/Overview.html に飛べる。
+    </aside>
+  </section>
+</section>
+
+<!-- 2. 本日のゴール＋流れ -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">本日のゴール</div>
+          <div class="c-msg">Claudeってなんなのか、どう使えばいいのか？がわかる状態にする。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="c-card bg-slate">
+            <div class="c-kicker">01</div>
+            <div class="font-head font-bold text-[1.2rem]">Claudeの全体像</div>
+            <div class="font-body font-bold text-[1rem]">Claudeってなんなの？<br />優位性・種類・拡張方法など</div>
+          </div>
+          <div class="c-card bg-tealgrey">
+            <div class="c-kicker">02</div>
+            <div class="font-head font-bold text-[1.2rem]">ライティング</div>
+            <div class="font-body font-bold text-[1rem]">AIっぽい文章って？<br />AIっぽさを定義して、それを消すSkillの実演</div>
+          </div>
+          <div class="c-card bg-sage">
+            <div class="c-kicker">03</div>
+            <div class="font-head font-bold text-[1.2rem]">デザイン</div>
+            <div class="font-body font-bold text-[1rem]">DESIGN.mdを軸に<br>モック・スライドを作る</div>
+          </div>
+          <div class="c-card bg-mauve">
+            <div class="c-kicker">04</div>
+            <div class="font-head font-bold text-[1.2rem]">業務自動化</div>
+            <div class="font-body font-bold text-[1rem]">社内で自動化した2事例の紹介</div>
+          </div>
+        </div>
+        <div class="c-lead">本日のセミナーはAIツールを使ったことがない方向けです。デモ中心に進めますが、本日使用したSkillはセミナーの最後に配布します。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      流れの予告。Claudeの全体像→ライティング→デザイン→業務自動化→質疑。今回は参加者ハンズオンはなく、全部講師のデモで見せる、と先に伝えておく。
+    </aside>
+  </section>
+</section>
+
+<!-- 3. アイスブレイク：もう書いていない -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">アイスブレイク</div>
+          <div class="c-msg">最近わたしは、ほとんど自分の手でコードを書いていません。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-2 gap-10">
+          <div class="grid gap-3 content-start">
+            <div class="c-tier1 text-slate">Claudeに任せていること</div>
+            <div class="c-tier2">コードを書かせる</div>
+            <div class="c-tier2">書いたコードをレビューさせる</div>
+            <div class="c-tier2">テストを書かせて回させる</div>
+          </div>
+          <div class="grid gap-3 content-start">
+            <div class="c-tier1 text-slate">自分が残った役割</div>
+            <div class="c-tier2">何をやらせるかを決める</div>
+            <div class="c-tier2">最終チェックで品質を担保する</div>
+            <div class="c-tier2">ユーザーと向き合う</div>
+          </div>
+        </div>
+        <div class="font-body font-bold text-[1.0rem] text-ink leading-relaxed mt-2">この流れが続けば、AIを使わない側のエンジニアは、AIが入れない一部の閉域環境を除いて居場所を失っていきます。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      もう2年近く自分の手では書いていない、という事実を淡々と話す。煽りすぎない。任せている3つと、自分に残った3つを対比で見せる。淘汰の話は事実として置き、次のスライドでバランスを取る。
+    </aside>
+  </section>
+</section>
+
+<!-- 4. でも、動かすのは人 -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">アイスブレイク — もう半分の話</div>
+          <div class="c-msg">でも、AIにいい成果物を出させるのは、人の指示と見極め。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-3 gap-5">
+          <div class="bg-surface p-5 grid gap-2 content-start">
+            <div class="c-kicker text-slate">渡し方</div>
+            <div class="c-tier1">指示の質で決まる</div>
+            <div class="c-tier3">いい成果物が出るかは、何をどう頼むかという人間側の指示次第</div>
+          </div>
+          <div class="bg-surface p-5 grid gap-2 content-start">
+            <div class="c-kicker text-slate">見極め</div>
+            <div class="c-tier1">正しさを判断する</div>
+            <div class="c-tier3">出てきたものが本当に正しいかを見極めるスキルは、これからも必要</div>
+          </div>
+          <div class="c-card bg-slate">
+            <div class="c-kicker">だから</div>
+            <div class="font-head font-bold text-[1.5rem]">土台のある人が強い</div>
+            <div class="font-body font-bold text-[1rem]">スキルのある技術者がAIを使えるようになるのが一番強い</div>
+          </div>
+        </div>
+        <div class="c-lead">AIに置き換わるのではなく、AIをうまく動かせる人に仕事が寄っていきます。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      前スライドの淘汰の話とセットで、バランスを取るパート。AIにいい成果物を出させるのは人の指示次第、正しさの見極めも人。だから土台のスキルがある技術者がAIを使えると強い。管理層など土台がない場合は使いこなしが人によって割れる、という補足も口頭で。
+    </aside>
+  </section>
+</section>
+
+<!-- 5. Claude① 優位性（3者の立ち位置＋中で動くモデル） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">Claudeについて 01 — 優位性</div>
+          <div class="c-msg">同じAI開発支援でも、Claudeを一番活かせるのは純正のClaude Code。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-3 gap-5">
+          <div class="bg-surface p-5 grid gap-2 content-start">
+            <div class="c-kicker text-slate">GitHub Copilot</div>
+            <div class="c-tier1">Microsoft製アプリに組み込まれたAI</div>
+            <div class="c-tier3">補完だけでなく、チャット・PRレビュー・CLI、Teams など Microsoft / GitHub の各所で使用できるが、性能はイマイチ</div>
+          </div>
+          <div class="bg-surface p-5 grid gap-2 content-start">
+            <div class="c-kicker text-slate">Cursor</div>
+            <div class="c-tier1">モデルを選べるエディタ</div>
+            <div class="c-tier3">AIコーディングエディタ。中で動かすモデルを切り替えられる（Claude や OpenAI 系など）。Claude は選択肢の一つ</div>
+          </div>
+          <div class="c-card bg-slate">
+            <div class="c-kicker">Claude Code</div>
+            <div class="font-head font-bold text-[1.5rem]">Claude 純正のエージェント</div>
+            <div class="font-body font-bold text-[1rem]">Anthropic 製。Claude を最大限引き出し、仕事を渡すと手順を組んで最後まで進める</div>
+          </div>
+        </div>
+        <div class="c-lead">3つは役割が違います。<br>広く埋め込むCopilot、モデルを選べるCursorに対し、Claude CodeはClaude純正だから最新機能をそのまま使え、エージェントとして仕事を任せきれます。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      Copilotは補完だけではない点に注意。MS/GitHubの各所（チャット・レビュー・Teamsなど）にAIを広く埋め込む。CursorはAI前提エディタで中のモデルを選べる（Claude/OpenAI系）、Claudeは選択肢の一つ。Claude CodeはAnthropic純正でClaudeをフルに活かすエージェント。優位性は範囲の広さではなく、純正ゆえに最新機能をそのまま使えて任せきれること。Q3が説明できないに寄っていればここで差分を補う。
+    </aside>
+  </section>
+</section>
+
+<!-- 6. Claude② 使える形（図：3グループ） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-5 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">Claudeについて 02 — 使える形</div>
+          <div class="c-msg">使う場所ややりたいことで、Claudeの形を選ぶ。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-3 gap-5">
+          <div class="grid gap-2 content-start">
+            <div class="bg-slate text-white px-4 py-2 c-kicker">話す・相談する</div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">Web</div><div class="c-tier3">ブラウザ版。<br>チャット、アーティファクト、Claudeデザインが使える</div></div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">デスクトップアプリ</div><div class="c-tier3">Web版とほぼ同じ。加えてCoworkが使える</div></div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">スマホアプリ</div><div class="c-tier3">移動中でも音声で相談できる</div></div>
+          </div>
+          <div class="grid gap-2 content-start">
+            <div class="bg-tealgrey text-white px-4 py-2 c-kicker">その場で作る</div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">アーティファクト</div><div class="c-tier3">作ったコードや文書をその場でプレビュー・編集</div></div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">Claudeデザイン</div><div class="c-tier3">要件からUIや紹介ページをその場で生成</div></div>
+          </div>
+          <div class="grid gap-2 content-start">
+            <div class="bg-sage text-white px-4 py-2 c-kicker">任せる・埋め込む</div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">Cowork</div><div class="c-tier3">デスクトップ版の作業モード。許可フォルダを直接読み書き＋/scheduleで定期実行</div></div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">CLI（Claude Code）</div><div class="c-tier3">ターミナルのエージェント。開発に組み込む</div></div>
+            <div class="bg-surface p-3 grid gap-0.5"><div class="c-tier1">API</div><div class="c-tier3">自社のアプリや仕組みに組み込む。従量課金に注意</div></div>
+          </div>
+        </div>
+        <div class="c-lead">どれも同じClaude。できることが少しずつ違うので用途で選択しましょう。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      8つを「話す・相談する」「その場で作る」「任せる・埋め込む」の3グループに分けて見せる。全部を覚える必要はなく、入り口はWeb、開発はCLI、組み込みはAPI、と用途で選べばよい。今日の主役はCLIのClaude Code。
+    </aside>
+  </section>
+</section>
+
+<!-- 7. Claude③ モデル（図：重さ＋トークン消費量の軸） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">Claudeについて 03 — モデル</div>
+          <div class="c-msg">モデルは、仕事の難易度とトークン消費量で選ぶ。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid place-items-center">
+          <svg viewBox="0 0 760 250" class="w-full max-w-[950px]" role="img" aria-label="Haiku・Sonnet・Opus を仕事の重さとトークン消費量の軸に並べた図">
+            <defs>
+              <marker id="wax" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" class="fill-sub"/></marker>
+            </defs>
+            <line x1="70" y1="120" x2="700" y2="120" class="stroke-sub" stroke-width="1.5" marker-end="url(#wax)"/>
+            <!-- Haiku -->
+            <circle cx="160" cy="120" r="40" class="fill-tealgrey"/>
+            <text x="160" y="126" text-anchor="middle" class="font-head font-bold fill-white text-[1rem]">Haiku</text>
+            <text x="160" y="190" text-anchor="middle" class="font-body fill-ink text-[0.9rem]">軽い作業を速く。消費が小さい</text>
+            <!-- Sonnet (emphasized) -->
+            <circle cx="385" cy="120" r="52" class="fill-slate"/>
+            <text x="385" y="116" text-anchor="middle" class="font-head font-bold fill-white text-[1rem]">Sonnet</text>
+            <text x="385" y="135" text-anchor="middle" class="font-body fill-white text-[11px]">日常の主力</text>
+            <text x="385" y="198" text-anchor="middle" class="font-body fill-ink text-[1rem]">速さ・賢さ・消費のバランス</text>
+            <!-- Opus -->
+            <circle cx="610" cy="120" r="44" class="fill-mauve"/>
+            <text x="610" y="126" text-anchor="middle" class="font-head font-bold fill-white text-[1rem]">Opus</text>
+            <text x="610" y="190" text-anchor="middle" class="font-body fill-ink text-[0.9rem]">難所に。賢いが消費が大きい</text>
+            <!-- axis labels -->
+            <text x="70" y="60" class="font-body fill-sub text-[12px]">軽い・速い・消費小</text>
+            <text x="700" y="60" text-anchor="end" class="font-body fill-sub text-[12px]">重い・賢い・消費大</text>
+          </svg>
+        </div>
+        <div class="c-lead">消費が大きいほどコストや利用上限の減りも速い。難所だけOpus、普段はSonnetでOK。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      重さとトークン消費量の2軸で選ぶ。重いモデルほど賢いが消費が大きく、コストや利用上限の減りも速い。Haiku＝軽く消費小、Opus＝賢いが消費大、日常はSonnet。難所だけOpus、普段はSonnet/Haikuで節約。Sonnetを真ん中に大きく置いて既定の主力だと示す。
+    </aside>
+  </section>
+</section>
+
+<!-- 8. Claude④ 拡張機構（図：Claude Code中心のハブ） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-5 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">Claudeについて 04 — 拡張機構</div>
+          <div class="c-msg">4つの仕組みで、Claudeを拡張する。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid place-items-center">
+          <svg viewBox="0 0 820 320" class="w-full max-w-[820px]" role="img" aria-label="Claude Codeを中心に、Skill・Hooks・MCP・.claudeの4つの拡張をつないだ図">
+            <line x1="410" y1="160" x2="190" y2="78" class="stroke-sub" stroke-width="1.5"/>
+            <line x1="410" y1="160" x2="630" y2="78" class="stroke-sub" stroke-width="1.5"/>
+            <line x1="410" y1="160" x2="190" y2="242" class="stroke-sub" stroke-width="1.5"/>
+            <line x1="410" y1="160" x2="630" y2="242" class="stroke-sub" stroke-width="1.5"/>
+            <circle cx="410" cy="160" r="62" class="fill-slate"/>
+            <text x="410" y="156" text-anchor="middle" class="font-head font-bold fill-white text-[1rem]">Claude</text>
+            <text x="410" y="174" text-anchor="middle" class="font-head font-bold fill-white text-[1rem]">Code</text>
+            <!-- Skill TL -->
+            <rect x="60" y="44" width="230" height="68" class="fill-surface"/>
+            <text x="75" y="72" class="font-head font-bold fill-slate text-[1.5rem]">Skills</text>
+            <text x="75" y="94" class="font-body fill-ink text-[1rem]">決まった手順を呼び出す</text>
+            <!-- Hooks TR -->
+            <rect x="530" y="44" width="230" height="68" class="fill-surface"/>
+            <text x="545" y="72" class="font-head font-bold fill-slate text-[1.5rem]">Hooks</text>
+            <text x="545" y="94" class="font-body fill-ink text-[1rem]">実行の前後を縛る</text>
+            <!-- MCP BL -->
+            <rect x="60" y="208" width="230" height="68" class="fill-surface"/>
+            <text x="75" y="236" class="font-head font-bold fill-slate text-[1.5rem]">MCP</text>
+            <text x="75" y="258" class="font-body fill-ink text-[1rem]">外部ツール・データにつなぐ</text>
+            <!-- .claude BR -->
+            <rect x="530" y="208" width="320" height="68" class="fill-surface"/>
+            <text x="545" y="236" class="font-mono font-bold fill-slate text-[1.5rem]">CLAUDE.md rules etc...</text>
+            <text x="545" y="258" class="font-body fill-ink text-[1rem]">ルールと記憶の置き場所</text>
+          </svg>
+        </div>
+        <div class="c-lead">
+          何度もやる手順はSkillにすると便利です。<br>
+          SkillはAIに作成させることができます。<br>
+          プロジェクトのルールなどはCLAUDE.md、rulesに記載します。
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      4本立て。Skill＝手順、Hooks＝強制、MCP＝外部接続、.claude/＝ルールと記憶（CLAUDE.md・rules・settings.json）。今日の主役はSkill。深掘りは後段と第2回・第3回に回す前振り。
+    </aside>
+  </section>
+</section>
+
+<!-- 9. ライティング編 デモ（before/after 実物） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-5 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">ライティング編 — /rewrite-ai-tone のデモ</div>
+          <div class="c-msg"><span class="font-mono text-[1.2rem] text-slate">/rewrite-ai-tone</span> は、AIっぽさを消して人の文章にするスキル。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-2 gap-5">
+          <div class="bg-surface p-5 grid gap-2 content-start">
+            <div class="c-kicker text-sub">Before — AIが書いた下書き</div>
+            <div class="c-quote text-ink">本稿では、これから開催する「ClaudeCode Skillハンズオン」について、その目的と意義を以下で解説します。結論から言うと、本ハンズオンは参加者の生産性を飛躍的に向上させるための、極めて重要かつ効果的な取り組みです。</div>
+            <div class="c-quote text-sub">…非常に重要で大切、そして欠かせない機会です。要するに、AI時代を生き抜くための最適な第一歩です。皆様のご参加を心よりお待ちしております。</div>
+          </div>
+          <div class="bg-slate/10 p-5 grid gap-2 content-start" style="background-color:rgba(61,105,143,0.10)">
+            <div class="c-kicker text-slate">After — AIっぽさを消したもの</div>
+            <div class="c-quote text-ink">ClaudeCodeのSkillハンズオンを開催します。Skill機能を実際に触ってもらい、終わったあとそのまま自分の業務で使える状態になってもらうのが狙いです。</div>
+            <div class="c-quote text-ink">ClaudeCodeのSkillを体系立てて触れる機会は多くありません。AI時代の開発に一歩踏み出す場として使ってください。</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="c-tier3"><span class="c-tier1 text-slate text-[0.9rem]">記号・強調の盛りすぎ</span><br>太字や「」の乱用を削る</div>
+          <div class="c-tier3"><span class="c-tier1 text-slate text-[0.9rem]">無難な前置きと締め文句</span><br>「結論から言うと」「お待ちしております」を落とす</div>
+          <div class="c-tier3"><span class="c-tier1 text-slate text-[0.9rem]">抽象語の言い換え連打</span><br>重要・大切・最適・本質の重ねを止める</div>
+        </div>
+        <div class="c-lead">SkillからSkillを呼び出すことができるので、デザイン編の <span class="font-mono text-slate">/create-slides-html</span> でも使用しています。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      会の都合でハンズオンはなし、講師が実演する。実際のbefore.md/after.mdを画面で開き、Before/Afterを並べて見せる。重要・最適・本質の連打、結論から言うと等の前置き、お待ちしております等の締め文句が消えている点を1つずつ指す。最後に、同じ除去がcreate-slides-htmlの内部でも効く、と伏線。
+    </aside>
+  </section>
+</section>
+
+<!-- 10. デザイン編 全体像（2スキル同列） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">デザイン編 — 全体像</div>
+          <div class="c-msg">DESIGN.mdでデザインを定義し、そのデザインの成果物を作成する。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-surface p-6 grid gap-2 content-start">
+            <div class="font-mono text-[0.9rem] text-slate">/create-design-md</div>
+            <div class="c-tier1">デザインの仕様書をつくる</div>
+            <div class="c-tier3">既存サイトのURLや参照pptxから、配色・フォント・余白などを実測してDESIGN.mdに書き出す</div>
+          </div>
+          <div class="bg-surface p-6 grid gap-2 content-start">
+            <div class="font-mono text-[0.9rem] text-slate">/create-slides-html</div>
+            <div class="c-tier1">DESIGN.mdからスライドをつくる</div>
+            <div class="c-tier3">DESIGN.mdを読み込み、その配色・フォントでHTMLスライドに起こす。モックも同じDESIGN.mdから作れる</div>
+          </div>
+        </div>
+        <div class="bg-slate text-white p-4 grid grid-cols-3 items-center text-center">
+          <div class="font-head font-bold text-[0.95rem]">見本（サイト / pptx）</div>
+          <div class="font-body font-bold text-[0.85rem]">→ DESIGN.md（仕様書）→</div>
+          <div class="font-head font-bold text-[0.95rem]">スライド / モック</div>
+        </div>
+        <div class="c-lead">デザインの仕様書(DESIGN.md)が重要です。次のページではDESIGN.mdとは何かを説明します。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      デザイン編で紹介するSkillは2つ、どちらも同列。create-design-mdで仕様書(DESIGN.md)を作り、create-slides-htmlでそれを形にする。間に挟まるDESIGN.mdが軸、という構図を最初に置く。ClaudeDesignやモックはこの流れの中で触れる。
+    </aside>
+  </section>
+</section>
+
+<!-- 11. DESIGN.mdとは（実サイト nintendo.com/jp → 実DESIGN.md） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-5 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">デザイン編 — DESIGN.mdとは</div>
+          <div class="c-msg">デザインの決まりを実測値で書き出した仕様書が、DESIGN.md。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-2 gap-6 items-stretch">
+          <div class="grid gap-2 content-start">
+            <div class="c-kicker text-sub">任天堂のサイト（nintendo.com/jp）</div>
+            <a href="https://www.nintendo.com/jp/" target="_blank" rel="noopener"><img src="assets/nintendo.png" alt="nintendo.com/jp のスクリーンショット" class="w-full border border-sub/30"></a>
+            <div class="c-lead">
+              このURLを <span class="font-mono text-slate">/create-design-md</span> に読ませると、DESIGN.mdが生成される。<br>
+              さらにこれを元にモックを作成させると...
+            </div>
+          </div>
+          <div class="grid gap-2 content-start">
+            <div class="c-kicker text-slate">生成されたDESIGN.md（抜粋）</div>
+            <div class="bg-ink p-4 font-mono text-[0.72rem] leading-relaxed text-white/90 grid gap-0.5">
+              <div class="text-white/50"># Color Palette</div>
+              <div>Nintendo Red&nbsp;#e60012</div>
+              <div>Red Dark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#ce181e</div>
+              <div>Ink Gray&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#3c3c3c</div>
+              <div>Panel Gray&nbsp;&nbsp;&nbsp;#f2f2f2</div>
+              <div class="text-white/50 mt-1"># Typography</div>
+              <div>本文・見出し&nbsp;&nbsp;Roboto / ヒラギノ角ゴ</div>
+              <div>本文の基準&nbsp;&nbsp;12px</div>
+              <div class="text-white/50 mt-1"># Radius / Shadow</div>
+              <div>角丸 2px（円形50%はアバター）</div>
+              <div>影 ほぼ無し（フラット）</div>
+            </div>
+            <div class="c-tier3">色・フォント・角丸・影が、推測ではなく実測値で並ぶ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      左に実在サイト（nintendo.com/jp）のスクショ、右にそこから生成したDESIGN.mdの抜粋を並べる。ポイントは、見た目の印象ではなくHEXやフォント名という実測値で書き出されること。これが次のモック・スライド生成の入力になる。実物はdesign/create-mock/DESIGN.mdに全文あり。
+    </aside>
+  </section>
+</section>
+
+<!-- 12. デザイン編 出力例（モック） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-5 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">デザイン編 — 出力例（モック）</div>
+          <div class="c-msg">任天堂のサイト風の、架空のサービスのLPができあがる。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid grid-cols-2 gap-6 items-start">
+          <div class="grid gap-2 content-start">
+            <div class="c-kicker text-sub">架空の人材管理SaaSのLP</div>
+            <a href="../../../design/create-mock/index.html" target="_blank" rel="noopener"><img src="assets/mock-nintendo.png" alt="DESIGN.mdから生成したモックのスクリーンショット" class="w-full border border-sub/30"></a>
+          </div>
+          <div class="grid gap-3 content-start">
+            <div class="c-tier1 text-slate">DESIGN.mdの値がそのまま効く</div>
+            <div class="c-tier2">ブランド赤 <span class="font-mono text-[0.9rem]">#e60012</span> をロゴとCTAに</div>
+            <div class="c-tier2">ニュートラルなグレー基調で階層をつくる</div>
+            <div class="c-tier2">角丸はほぼなし・影なしのフラット</div>
+            <div class="c-lead">中身は人材管理SaaSでも、見た目は nintendo.com/jp 由来のテイストで揃う</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      DESIGN.md→モックの実出力。nintendo.com/jpから抽出したDESIGN.md（赤・フラット・グレー基調）を、人材管理SaaSのLPに当てたモック。中身は別物でも見た目はNintendo由来で揃う＝デザインシステムは別コンテンツにも使い回せる、と見せる。実物はdesign/create-mock/index.html。
+    </aside>
+  </section>
+</section>
+
+<!-- 12b. デザイン編 再現性（仕様書を当てる） -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">デザイン編 — なぜ仕様書を挟むか</div>
+          <div class="c-msg">同じDESIGN.mdを当てると、モックもスライドも見た目がそろう。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid place-items-center">
+          <svg viewBox="0 0 760 220" class="w-full max-w-[820px]" role="img" aria-label="1つのDESIGN.mdからモックとスライドの両方に同じデザインが反映される図">
+            <defs>
+              <marker id="dz" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" class="fill-slate"/></marker>
+            </defs>
+            <rect x="40" y="78" width="220" height="64" class="fill-slate"/>
+            <text x="150" y="106" text-anchor="middle" class="font-mono fill-white text-[14px]">DESIGN.md</text>
+            <text x="150" y="126" text-anchor="middle" class="font-body fill-white text-[11px]">1つの仕様書</text>
+            <line x1="260" y1="110" x2="470" y2="55" class="stroke-slate" stroke-width="2" marker-end="url(#dz)"/>
+            <line x1="260" y1="110" x2="470" y2="165" class="stroke-slate" stroke-width="2" marker-end="url(#dz)"/>
+            <rect x="480" y="28" width="240" height="56" class="fill-surface"/>
+            <text x="600" y="54" text-anchor="middle" class="font-head font-bold fill-ink text-[14px]">モック（HTML/CSS）</text>
+            <text x="600" y="73" text-anchor="middle" class="font-body fill-sub text-[11px]">同じ色・フォントで再現</text>
+            <rect x="480" y="138" width="240" height="56" class="fill-surface"/>
+            <text x="600" y="164" text-anchor="middle" class="font-head font-bold fill-ink text-[14px]">スライド（reveal.js）</text>
+            <text x="600" y="183" text-anchor="middle" class="font-body fill-sub text-[11px]">同じ色・フォントで再現</text>
+          </svg>
+        </div>
+        <div class="c-lead">
+          DESIGN.mdを挟むだけで、毎回デザインを言葉で指示し直さずに済みます。<br>
+          抽出したテイストを、モックにもスライドにも使い回して再現できます。<br>
+          このスライドも<span class="font-mono text-slate">/create-slides-html</span>で生成されています。
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      デザインとは見た目の決まりごと。それをDESIGN.mdという仕様書に固定しておくと、モックもスライドも同じ値を読み込むだけで見た目がそろう。毎回口で指示し直さない、使い回せる、が再現性のメリット。create-slides-htmlがトークン軽くローカルで動くので、ライブでも回しやすい。
+    </aside>
+  </section>
+</section>
+
+<!-- 13. 業務自動化編 事例1 -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">業務自動化編 — 事例 01</div>
+          <div class="c-msg">AIニュースの収集、投稿を毎週自動で。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid place-items-center">
+          <svg viewBox="0 0 920 360" class="w-full max-w-[960px]" role="img" aria-label="Claude Codeが収集してMarkdownとHTMLを出力し、MarkdownはObsidianへ蓄積、HTMLはPower Automate経由でTeamsへ投稿する流れ図">
+            <defs>
+              <marker id="fa1" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" class="fill-ink"/></marker>
+            </defs>
+            <rect x="15" y="56" width="585" height="276" fill="none" class="stroke-slate" stroke-width="1.5" stroke-opacity="0.4"/>
+            <rect x="620" y="56" width="285" height="276" fill="none" class="stroke-tealgrey" stroke-width="1.5" stroke-opacity="0.6"/>
+            <text x="24" y="44" class="font-head font-bold fill-slate text-[15px]">Claude Code ｜ 毎週月曜10時に自動起動</text>
+            <text x="628" y="44" class="font-head font-bold fill-tealgrey text-[15px]">Power Automate</text>
+            <rect x="40" y="120" width="160" height="86" class="fill-slate"/>
+            <text x="120" y="155" text-anchor="middle" class="font-head font-bold fill-white text-[15px]">① 収集</text>
+            <text x="120" y="180" text-anchor="middle" class="font-body fill-white text-[12px]">XからAIニュースを集める</text>
+            <rect x="240" y="120" width="210" height="86" class="fill-slate"/>
+            <text x="345" y="150" text-anchor="middle" class="font-head font-bold fill-white text-[15px]">② 出力</text>
+            <text x="345" y="173" text-anchor="middle" class="font-body fill-white text-[12px]">Markdown と HTML の</text>
+            <text x="345" y="191" text-anchor="middle" class="font-body fill-white text-[12px]">2ファイルを書き出す</text>
+            <rect x="240" y="252" width="210" height="60" class="fill-surface"/>
+            <text x="345" y="278" text-anchor="middle" class="font-head font-bold fill-ink text-[12px]">Markdown → Obsidian</text>
+            <text x="345" y="297" text-anchor="middle" class="font-body fill-sub text-[11px]">ナレッジとして蓄積</text>
+            <rect x="655" y="120" width="215" height="86" class="fill-tealgrey"/>
+            <text x="762" y="152" text-anchor="middle" class="font-head font-bold fill-white text-[15px]">③ Teamsに投稿</text>
+            <text x="762" y="176" text-anchor="middle" class="font-body fill-white text-[12px]">OneDriveに置かれたHTMLを投稿</text>
+            <line x1="200" y1="163" x2="236" y2="163" class="stroke-ink" stroke-width="2" marker-end="url(#fa1)"/>
+            <line x1="450" y1="163" x2="651" y2="163" class="stroke-ink" stroke-width="2" marker-end="url(#fa1)"/>
+            <text x="585" y="151" text-anchor="middle" class="font-body fill-sub text-[12px]">HTML</text>
+            <line x1="345" y1="206" x2="345" y2="248" class="stroke-ink" stroke-width="2" marker-end="url(#fa1)"/>
+            <text x="356" y="232" class="font-body fill-sub text-[11px]">Markdown</text>
+          </svg>
+        </div>
+        <div class="c-lead">
+          収集とファイル出力はClaude、Teams投稿はPower Automateが担当します。<br>
+          ClaudeのTeams連携は限定的なので、別ツールと組み合わせる必要があります。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      時系列：①収集→②MarkdownとHTMLを出力→Markdownは Obsidian へ蓄積（ナレッジ）／HTMLは Power Automate が受け取って③Teams投稿。投稿はClaudeではなくPower Automateが担う点を、ゾーン分けで強調。スケジュール起動と既存ツール（Obsidian/Power Automate/Teams）の組み合わせ。
+    </aside>
+  </section>
+</section>
+
+<!-- 14. 業務自動化編 事例2 -->
+<section>
+  <section>
+    <div class="r-stretch grid p-14">
+      <div class="grid gap-6 content-start">
+        <div class="grid gap-2">
+          <div class="c-eyebrow">業務自動化編 — 事例 02</div>
+          <div class="c-msg">請求書を読み取り、申請用Excelに転記。</div>
+        </div>
+        <div class="c-rule"></div>
+        <div class="grid place-items-center">
+          <svg viewBox="0 0 920 400" class="w-full max-w-[940px]" role="img" aria-label="Claudeが請求書PDFをダウンロードして抽出、JCBサイトのレートで円換算してスクショ保存、PDFとスクショをExcelと同じフォルダのサブフォルダに証跡保存、Excelに追記、最後に人が金額をチェックする流れ図">
+            <defs>
+              <marker id="fb1" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" class="fill-ink"/></marker>
+            </defs>
+            <rect x="15" y="58" width="660" height="312" fill="none" class="stroke-slate" stroke-width="1.5" stroke-opacity="0.4"/>
+            <rect x="695" y="58" width="210" height="312" fill="none" class="stroke-mauve" stroke-width="1.5" stroke-opacity="0.55"/>
+            <text x="24" y="46" class="font-head font-bold fill-slate text-[15px]">Claude</text>
+            <text x="703" y="46" class="font-head font-bold fill-mauve text-[15px]">人（最終チェック）</text>
+            <rect x="35" y="108" width="190" height="92" class="fill-slate"/>
+            <text x="130" y="138" text-anchor="middle" class="font-head font-bold fill-white text-[14px]">① 抽出・DL</text>
+            <text x="130" y="160" text-anchor="middle" class="font-body fill-white text-[11px]">Claude in Chrome で</text>
+            <text x="130" y="178" text-anchor="middle" class="font-body fill-white text-[11px]">請求書PDFをダウンロード</text>
+            <rect x="245" y="108" width="190" height="92" class="fill-slate"/>
+            <text x="340" y="138" text-anchor="middle" class="font-head font-bold fill-white text-[14px]">② 換算</text>
+            <text x="340" y="160" text-anchor="middle" class="font-body fill-white text-[11px]">JCBのレートで円換算</text>
+            <text x="340" y="178" text-anchor="middle" class="font-body fill-white text-[11px]">レート画面をスクリーンショット</text>
+            <rect x="455" y="108" width="190" height="92" class="fill-slate"/>
+            <text x="550" y="138" text-anchor="middle" class="font-head font-bold fill-white text-[14px]">③ 追記</text>
+            <text x="550" y="160" text-anchor="middle" class="font-body fill-white text-[11px]">自社の申請用Excelに</text>
+            <text x="550" y="178" text-anchor="middle" class="font-body fill-white text-[11px]">書き込む</text>
+            <rect x="708" y="108" width="182" height="92" class="fill-mauve"/>
+            <text x="799" y="146" text-anchor="middle" class="font-head font-bold fill-white text-[14px]">④ チェック</text>
+            <text x="799" y="170" text-anchor="middle" class="font-body fill-white text-[11px]">金額を人が最終確認</text>
+            <rect x="35" y="262" width="400" height="86" class="fill-surface"/>
+            <text x="235" y="290" text-anchor="middle" class="font-head font-bold fill-ink text-[12px]">証跡として保存</text>
+            <text x="235" y="312" text-anchor="middle" class="font-body fill-ink text-[11px]">請求書PDF ＋ レートのスクリーンショットを</text>
+            <text x="235" y="330" text-anchor="middle" class="font-body fill-sub text-[11px]">Excel と同じフォルダのサブフォルダへ</text>
+            <line x1="225" y1="154" x2="242" y2="154" class="stroke-ink" stroke-width="2" marker-end="url(#fb1)"/>
+            <line x1="435" y1="154" x2="452" y2="154" class="stroke-ink" stroke-width="2" marker-end="url(#fb1)"/>
+            <line x1="645" y1="154" x2="704" y2="154" class="stroke-ink" stroke-width="2" marker-end="url(#fb1)"/>
+            <line x1="130" y1="200" x2="130" y2="259" class="stroke-ink" stroke-width="2" marker-end="url(#fb1)"/>
+            <text x="138" y="236" class="font-body fill-sub text-[11px]">PDF</text>
+            <line x1="340" y1="200" x2="340" y2="259" class="stroke-ink" stroke-width="2" marker-end="url(#fb1)"/>
+            <text x="348" y="236" class="font-body fill-sub text-[11px]">スクリーンショット</text>
+          </svg>
+        </div>
+        <div class="c-lead">請求書PDFとレートのスクリーンショットは証跡としてサブフォルダに残すので、あとから根拠を確認できます。</div>
+      </div>
+    </div>
+    <aside class="notes">
+      事例1の外向き共有に対し、内部の集計の例。時系列：①Claude in Chromeで請求書PDFをダウンロード・抽出→②JCBのレートで円換算＋レート画面をスクリーンショット→③Excelに追記→④人が金額を最終チェック。請求書PDFとレートのスクリーンショットはExcelと同じフォルダのサブフォルダに証跡として残す。抽出〜追記はClaude、最終確認だけ人。Claudeと人の線引きが、自動化を実務に乗せる肝。アイスブレイクの「見極めは人」と地続き。
+    </aside>
+  </section>
+</section>
+
+<!-- 15. クロージング -->
+<section>
+  <section class="bg-slate">
+    <div class="r-stretch grid place-items-center p-16">
+      <div class="grid gap-6 max-w-4xl">
+        <div class="c-eyebrow-light">クロージング</div>
+        <div class="c-title text-white text-[2.6rem]">今日紹介したSkillの一部は<br>この後配布します。<br>自分のPCで使ってみてください。</div>
+        <div class="font-body font-bold text-[1.1rem] text-white/85 leading-relaxed">何か質問等あればお願いします。</div>
+        <div class="c-note text-white/60 mt-2">次回は第2回：コーディング編を予定しています</div>
+      </div>
+    </div>
+    <aside class="notes">
+      今日のまとめ：Claudeの全体像と、ライティング・デザイン・自動化の実演。質疑へ。次回コーディング編の案内。事前準備（gh認証・fork）が要る点も触れる。
+    </aside>
+  </section>
+</section>
+
+<!-- 16. 配布資料に関するご注意 -->
+<section>
+  <section class="bg-slate">
+    <div class="r-stretch grid place-items-center p-16">
+      <div class="grid gap-6 max-w-4xl">
+        <div class="c-eyebrow-light">配布資料に関するご注意</div>
+        <div class="c-title text-white text-[2.0rem]">本資料は、UOSが開催するセミナー参加者に<br>限り配布するものです。</div>
+        <div class="grid gap-3">
+          <div class="font-body font-bold text-[1.05rem] text-white/85 leading-relaxed">以下の行為を禁止します。</div>
+          <ul class="font-body text-[1.0rem] text-white/85 leading-relaxed grid gap-2 list-disc pl-6">
+            <li>社外への持ち出し・共有・送付（印刷物・電子データを問わず）</li>
+            <li>無断での転載・複製・再配布</li>
+            <li>内容の改変および二次的著作物の作成</li>
+          </ul>
+        </div>
+        <div class="font-body text-[1.0rem] text-white/85 leading-relaxed">
+          本資料の著作権は株式会社コスモルートに帰属します。<br>
+          不明点は〔担当部門・連絡先〕までお問い合わせください。
+        </div>
+      </div>
+    </div>
+    <aside class="notes">
+      配布資料の取り扱いについての注意。参加者限定配布であること、持ち出し・転載・改変の禁止、著作権の帰属を確認する締めのページ。
+    </aside>
+  </section>
+</section>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    transition: 'none',
+    width: 1280,
+    height: 720,
+    margin: 0.04,
+    slideNumber: 'c/t',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
